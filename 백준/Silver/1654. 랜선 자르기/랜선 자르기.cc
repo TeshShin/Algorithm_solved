@@ -42,7 +42,7 @@ int main()
 }
 
 
-
+// 아래는 재귀 방식인데 시간 초과임... 왜지??
 /*
 long long parametricSearch(long long start, long long end);
 
