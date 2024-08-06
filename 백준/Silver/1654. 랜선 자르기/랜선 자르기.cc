@@ -9,20 +9,18 @@ void solve()
 	unsigned L, R, mid;
 
 
-	// 방법 1:  Y Y Y Y Y [Y] N N N N
-	// success
 	L = 1, R = maxLan;
-	while (L != R) {
-		mid = (L + R + 1) / 2;  // mid = (L+R)/2 로 계산할 경우 - 시간 초과
-		// Y Y Y Y Y N N N 꼴이기 때문에 mid = ceil((L+R)/2) = (L+R+1)/2 여야 함
+	while (L <= R) { // 방법 3에서는 while의 종료 조건 달라짐
+		mid = (L + R) / 2;
 
 		unsigned cnt = 0;
 		for (int i = 0; i < K && cnt < N; ++i) cnt += lan[i] / mid;
 
 		if (cnt < N) R = mid - 1;
-		else L = mid;
+		else L = mid + 1;
 	}
-	cout << L; // L = R = mid
+	// 탐색 끝난 이후 L, R의 관계도 달라짐 (방법 1: L == R == mid, 방법 3: L > R)
+	cout << --L; // L > R, 마지막 mid는 계산 안 된 상태
 	cout << '\n';
 }
 int main()
