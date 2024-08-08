@@ -4,7 +4,7 @@
 using namespace std;
 #pragma warning(disable : 4996)
 int N, M;
-char namelist1[500001][21];
+char namelist[500001][21];
 char cantseeName[21];
 char sorted[500001][21];
 
@@ -16,20 +16,20 @@ int length = 0;
 void merge(char list[][21], int left, int mid, int right);
 void merge_sort(char list[][21], int left, int right);
 
-int findchar(char namelist[][21], char name[], int first, int last);
+int findchar(char list[][21], char name[], int first, int last);
 
 int main() {
 	ios::sync_with_stdio(0), cin.tie(0), cout.tie(0);
 	cin >> N >> M;
 	
 	for (int i = 0; i < N; i++) {
-		cin >> namelist1[i];
+		cin >> namelist[i];
 	}
-	merge_sort(namelist1, 0, N - 1);
+	merge_sort(namelist, 0, N - 1);
 
 	for (int i = 0; i < M; i++) {
 		cin >> cantseeName;
-		if (findchar(namelist1, cantseeName, 0, N - 1)) {
+		if (findchar(namelist, cantseeName, 0, N - 1)) {
 			strcpy(reallist[length], cantseeName);
 			length++;
 		}
@@ -88,20 +88,20 @@ void merge_sort(char list[][21], int left, int right) {
 	}
 }
 
-int findchar(char namelist[][21], char name[], int first, int last) {
+int findchar(char list[][21], char name[], int first, int last) {
 	int mid = (first + last) / 2;
 	if (first > last) {
 		return 0;
 	}
 	else {
-		if (strcmp(namelist[mid], name) == 0) {
+		if (strcmp(list[mid], name) == 0) {
 			return 1;
 		}
-		else if (strcmp(namelist[mid], name) < 0) {
-			return findchar(namelist, name, mid + 1, last);
+		else if (strcmp(list[mid], name) < 0) {
+			return findchar(list, name, mid + 1, last);
 		}
-		else if (strcmp(namelist[mid], name) > 0) {
-			return findchar(namelist, name, first, mid - 1);
+		else if (strcmp(list[mid], name) > 0) {
+			return findchar(list, name, first, mid - 1);
 		}
 	}
 	return 0;
