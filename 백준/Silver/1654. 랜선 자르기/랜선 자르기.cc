@@ -1,6 +1,9 @@
 #include<iostream>
 
 using namespace std;
+
+
+/*
 unsigned K, N;
 unsigned lan[10000], minLan, maxLan; // --> (ll)2147483648 = (int)-2147483648
 
@@ -40,15 +43,15 @@ int main()
 
 	return 0;
 }
-
+*/
 
 // 아래는 재귀 방식인데 시간 초과임... 왜지??
-/*
-long long parametricSearch(long long start, long long end);
+// ==>  해결함 재귀함수에 return 안붙여서 그럼
+unsigned parametricSearch(unsigned start, unsigned end);
 
-long long k, n;
+unsigned k, n;
 
-long long line[10000], minLen, maxLen;
+unsigned line[10000], minLen, maxLen;
 
 int main() {
 	ios::sync_with_stdio(false);
@@ -72,21 +75,20 @@ int main() {
 
 
 
-long long parametricSearch(long long start, long long end) {
+unsigned parametricSearch(unsigned start, unsigned end) {
 	if (start > end) {
 		return start - 1;
 	}
-	long long mid = (start + end) / 2;
+	unsigned mid = (start + end) / 2;
 
-	long long cnt = 0;
+	unsigned cnt = 0;
 	for (int i = 0; i < k && cnt < n; ++i) cnt += line[i] / mid;
 
 	if (cnt >= n){
-		parametricSearch(mid + 1, end);
+		return parametricSearch(mid + 1, end);
 	}
 	else {
-		parametricSearch(start, mid - 1);
+		return parametricSearch(start, mid - 1);
 	}
 
 }
-*/
