@@ -1,5 +1,5 @@
 #include<iostream>
-#include<algorithm>
+
 using namespace std;
 
 class Stack {
@@ -14,7 +14,7 @@ public:
 	int top();
 private:
 	int length;
-	int ary[10001] = { 0 ,};
+	int ary[10001] = { 0 };
 };
 
 void Stack::push(int x)
