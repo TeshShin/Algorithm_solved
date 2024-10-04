@@ -10,8 +10,7 @@ int solution(vector<int> priorities, int location) {
     for (int i = 0; i < priorities.size(); i++) {
         wait.push(priorities[i]);
     }
-    bool done = false;
-    while (!done) {
+    while (true) {
         bool active = true;
         int save = wait.front();
         wait.pop();
@@ -24,7 +23,7 @@ int solution(vector<int> priorities, int location) {
         }
         if (active) {
             answer++;
-            if (tries == location) done = true;
+            if (tries == location) return answer;
         }
         else {
             wait.push(save);
@@ -34,5 +33,5 @@ int solution(vector<int> priorities, int location) {
     }
     
 
-    return answer;
+    
 }
