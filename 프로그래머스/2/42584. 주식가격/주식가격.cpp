@@ -8,20 +8,17 @@ vector<int> solution(vector<int> prices) {
     int savepoint = 0;
     for (int i = 0; i < prices.size(); i++) {
         int time = 0;
-        if (i == prices.size() - 1) {
+        if (i == prices.size() - 1) { // 제일 마지막 원소는 시간이 없음
             answer.push_back(0);
             break;
         }
         for (int j = i + 1; j < prices.size(); j++) {
             time++;
             if (prices[i] > prices[j]) {
-                answer.push_back(time);
                 break;
             }
-            else if (j == prices.size() - 1) {
-                answer.push_back(time);
-            }
         }
+        answer.push_back(time); 
     }
 
 
