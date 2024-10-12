@@ -82,7 +82,7 @@ int main() {
 		for (int y = 0; y < N; y++) {
 			for (int x = 0; x < M; x++) {
 				if (map[y][x]) {
-					list.push_back(dfs(map, y, x));
+					list.push_back(bfs(map, y, x));
 				}
 			}
 		}
