@@ -6,7 +6,6 @@ using namespace std;
 
 int main() {
 	int N;
-	int Pi;
 
 	cin >> N;
 	vector<int> line(N); // (0, N)으로 초기화도 됨
