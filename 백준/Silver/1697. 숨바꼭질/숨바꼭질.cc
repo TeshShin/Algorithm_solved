@@ -70,5 +70,9 @@ int main() {
 		bfs(line, N, K);
 		cout << line[K];
 	}
+	//cout << '\n';
+	//for (int i = N; i < K; i++) {
+	//	cout << line[i] << " ";
+	//}
 	return 0;
 }
