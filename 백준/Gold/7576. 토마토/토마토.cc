@@ -12,13 +12,11 @@ int bfs(vector<vector<int>>& map, vector<vector<bool>>& checkmap) {
 	}
 	int movex[4] = { 1 , 0 , 0, -1 };
 	int movey[4] = { 0 , 1, -1, 0 };
-	int maxday = 0;
-
+	int yesterday;
 	while (!q1.empty()) {
 		int x = q1.front();
 		int y = q2.front();
-		int yesterday = day.front();
-		maxday = max(maxday, yesterday);
+		yesterday = day.front();
 		q1.pop();
 		q2.pop();
 		day.pop();
@@ -49,7 +47,7 @@ int bfs(vector<vector<int>>& map, vector<vector<bool>>& checkmap) {
 		return -1;
 	}
 
-	return maxday;
+	return yesterday;
 }
 
 
