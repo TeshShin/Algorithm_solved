@@ -19,7 +19,8 @@ void push(int x) {
 	// 비교 스왑
 	int child = countheap;
 	int parent = child / 2;
-	while (countheap > 1 && heap[parent] > heap[child]) {
+	// child가 1이면 parent는 0이 되지만, parent값인 0은 child값보다 크지 않아서 스왑안댐.
+	while (countheap > 1 && heap[parent] > heap[child]) { 
 		swap(heap[parent], heap[child]);
 		child = parent;
 		parent = child / 2;
