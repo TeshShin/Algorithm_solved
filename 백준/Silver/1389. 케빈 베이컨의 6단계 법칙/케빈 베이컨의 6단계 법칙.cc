@@ -15,12 +15,7 @@ int main() {
 	int a = 0;
 	for (int i = 1; i <= N; i++) {
 		for (int j = 1; j <= N; j++) {
-			if (i == j) {
-				MAP[i][j] = 0;
-			}
-			else {
 				MAP[i][j] = 100;
-			}
 		}
 	}
 
