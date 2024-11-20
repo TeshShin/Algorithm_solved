@@ -10,11 +10,12 @@ int N;
 int bfs(char map[100][100]) {
 	bool visit[100][100] = { false };
 	int cnt = 0;
+	queue<int> qx;
+	queue<int> qy;
 	for(int i = 0; i < N; i++){
 		for (int j = 0; j < N; j++) {
 			if (!visit[i][j]) {
-				queue<int> qx;
-				queue<int> qy;
+
 				qx.push(i);
 				qy.push(j);
 				visit[i][j] = true;
