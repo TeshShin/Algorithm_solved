@@ -15,13 +15,12 @@ int bfs(char map[100][100]) {
 	for(int i = 0; i < N; i++){
 		for (int j = 0; j < N; j++) {
 			if (!visit[i][j]) {
-
 				qx.push(i);
 				qy.push(j);
-				visit[i][j] = true;
 				while (!qx.empty()) {
 					int x = qx.front();
 					int y = qy.front();
+					visit[x][y] = true;
 					qx.pop();
 					qy.pop();
 					for (int k = 0; k < 4; k++) {
