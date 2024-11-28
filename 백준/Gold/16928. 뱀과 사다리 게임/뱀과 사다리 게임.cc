@@ -19,7 +19,7 @@ void game(int x, int c) {
                 return;
             }
             else if (nx < 100) { // 100보다 작은 좌표라면 
-                while (map[nx] != 0) { // 사다리 혹은 뱀인지 확인
+                while (map[nx] > 0) { // 사다리 혹은 뱀인지 확인
                     nx = map[nx]; // 점프한 자리로 이동
                 }
                 if (!visit[nx]) { // 처음 방문한 좌표일때
