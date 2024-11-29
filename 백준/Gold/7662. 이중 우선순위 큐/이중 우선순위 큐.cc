@@ -24,6 +24,8 @@ int main() {
             else {
                 if (n == 1 && !ms.empty())
                     ms.erase(--ms.end());
+                // 가장 마지막 원소 삭제시-- > --ms.end() 해야함!
+                // ms.end()는 가장 마지막 원소 다음 빈곳을 가리키고 있기 때문
                 else if (n == -1 && !ms.empty())
                     ms.erase(ms.begin());
             }
