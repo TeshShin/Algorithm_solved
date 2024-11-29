@@ -33,6 +33,7 @@ int main() {
 				cntmp[pq_min.top()]--;
 				pq_min.pop();
 			}
+			// 원소가 유효하지 않으면 빼줘야한다.
 			while (!pq_max.empty() && !cntmp[pq_max.top()]) pq_max.pop();
 			while (!pq_min.empty() && !cntmp[pq_min.top()]) pq_min.pop();
 		}
