@@ -1,7 +1,6 @@
 #include<iostream>
 #include<vector>
 using namespace std;
-#define MAX 8
 
 int N, M;
 vector<int> answer;
