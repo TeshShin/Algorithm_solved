@@ -4,7 +4,6 @@ using namespace std;
 #define MAX 8
 
 int N, M;
-bool visited[MAX] = { 0 };
 vector<int> answer;
 
 void solve(int depth, int start);
@@ -12,7 +11,7 @@ void solve(int depth, int start);
 int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
-	cout.tie(NULL);
+	cout.tie(NULL);		
 	cin >> N >> M;
 	solve(0, -1);
 
