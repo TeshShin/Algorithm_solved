@@ -1,10 +1,8 @@
 #include<iostream>
 #include<vector>
 using namespace std;
-#define MAX 8
 
 int N, M;
-bool visited[MAX] = { 0 };
 vector<int> answer;
 
 void solve(int depth, int start);
