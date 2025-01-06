@@ -8,7 +8,6 @@ int input[MAX];
 bool visited[MAX] = { 0 };
 void solve(int depth);
 vector<int> answer;
-vector<int> before;
 int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
@@ -27,7 +26,6 @@ void solve(int depth) {
 		// 출력
 		for (int i = 0; i < M; i++) {
 			cout << answer[i] << " ";
-			before.push_back(answer[i]);
 		}
 		cout << '\n';
 	}
