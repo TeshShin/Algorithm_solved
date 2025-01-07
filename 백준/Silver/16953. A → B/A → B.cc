@@ -1,16 +1,5 @@
 #include<iostream>
-#include<queue>
 using namespace std;
-
-queue<int> q;
-
-void bfs(int a) {
-	q.push(a);
-
-
-
-}
-
 
 int A, B;
 int main() {
