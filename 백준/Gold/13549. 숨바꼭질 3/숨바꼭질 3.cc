@@ -21,13 +21,13 @@ int bfs01()
 			visit[move] = visit[current];
 			d.push_front(move);
 		}
-		move = current - 1;
+		move = current + 1;
 		if (0 <= move && move < 100001 && visit[move] > visit[current] + 1)
 		{
 			visit[move] = visit[current] + 1;
 			d.push_back(move);
 		}
-		move = current + 1;
+		move = current - 1;
 		if (0 <= move && move < 100001 && visit[move] > visit[current] + 1)
 		{
 			visit[move] = visit[current] + 1;
