@@ -15,13 +15,8 @@ int bfs01()
 		d.pop_front();
 		if (current == K) return visit[K];
 		
-		int move = current * 2;
-		if (0 <= move && move < 100001 && visit[move] > visit[current])
-		{
-			visit[move] = visit[current];
-			d.push_front(move);
-		}
-		move = current + 1;
+		
+		int move = current + 1;
 		if (0 <= move && move < 100001 && visit[move] > visit[current] + 1)
 		{
 			visit[move] = visit[current] + 1;
@@ -32,6 +27,12 @@ int bfs01()
 		{
 			visit[move] = visit[current] + 1;
 			d.push_back(move);
+		}
+		move = current * 2;
+		if (0 <= move && move < 100001 && visit[move] > visit[current])
+		{
+			visit[move] = visit[current];
+			d.push_front(move);
 		}
 	}
 }
