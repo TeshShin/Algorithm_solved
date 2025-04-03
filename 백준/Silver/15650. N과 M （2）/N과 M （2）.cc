@@ -10,9 +10,9 @@ void solve(int depth, int start);
 int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
-	cout.tie(NULL);		
+	cout.tie(NULL);
 	cin >> N >> M;
-	solve(0, -1);
+	solve(0, 1);
 
 	return 0;
 }
@@ -23,12 +23,11 @@ void solve(int depth, int start) {
 			cout << answer[i] << " ";
 		}
 		cout << '\n';
-		return;
 	}
 	else {
-		for (int i = start + 1; i < N; i++) {
-			answer.push_back(i + 1);
-			solve(depth + 1, i);
+		for (int i = start; i <= N; i++) {
+			answer.push_back(i);
+			solve(depth + 1, i + 1);
 			answer.pop_back();
 		}
 	}
