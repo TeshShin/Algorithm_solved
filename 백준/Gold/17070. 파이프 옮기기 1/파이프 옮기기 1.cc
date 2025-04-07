@@ -1,6 +1,6 @@
 #include<iostream>
 #include<vector>
-#include<queue>
+#include<stack>
 #include<utility>
 using namespace std;
 
@@ -11,15 +11,15 @@ int dx[3][2] = { {0, 1}, {1, 0}, {1, 1} };
 int bfs()
 {
 	int arrives = 0;
-	queue<pair<int,int>> q;
-	queue<int> saveMove;
-	q.push(make_pair(1, 2));
+	stack<pair<int,int>> st;
+	stack<int> saveMove;
+	st.push(make_pair(1, 2));
 	saveMove.push(0);
-	while (!q.empty())
+	while (!st.empty())
 	{
-		pair<int, int> curr = q.front();
-		int currMove = saveMove.front();
-		q.pop();
+		pair<int, int> curr = st.top();
+		int currMove = saveMove.top();
+		st.pop();
 		saveMove.pop();
 		// 목적지 도달 시
 		if (curr.first == N && curr.second == N)
@@ -37,7 +37,7 @@ int bfs()
 					break;
 				else
 				{
-					q.push(make_pair(curr.first, curr.second + 1));
+					st.push(make_pair(curr.first, curr.second + 1));
 					saveMove.push(0);
 				}
 				break;
@@ -49,7 +49,7 @@ int bfs()
 					break;
 				else
 				{
-					q.push(make_pair(curr.first + 1, curr.second + 1));
+					st.push(make_pair(curr.first + 1, curr.second + 1));
 					saveMove.push(1);
 				}
 				break;
@@ -58,7 +58,7 @@ int bfs()
 					break;
 				else
 				{
-					q.push(make_pair(curr.first + 1, curr.second));
+					st.push(make_pair(curr.first + 1, curr.second));
 					saveMove.push(2);
 				}
 				break;
