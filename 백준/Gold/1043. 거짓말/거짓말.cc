@@ -1,84 +1,71 @@
-#include<iostream>
-#include<queue>
+#include <iostream>
 using namespace std;
-
-
-int N, M;
-int knowncnt;
-
-bool known[50];
-		//사람, 사람
-bool table[51][51];
-int party[50][50];
-int people[50];
-queue<int> q;
-int lies = 0;
-void bfs()
-{
-	while (!q.empty())
-	{
-		int cur = q.front();
-		q.pop();
-		known[cur] = 1;
-		for (int i = 1; i <= N; i++)
-		{
-			if (table[cur][i] == 1 && !known[i])
-			{
-				known[i] = true;
-				q.push(i);
-			}
-		}
-	}
-
-	for (int i = 0; i < M; i++)
-	{
-		bool lie = false;
-		for (int j = 0; j < people[i]; j++)
-		{
-			if (known[party[i][j]])
-			{
-				lie = true;
-				break;
-			}
-		}
-		if (!lie)
-			lies++;
-	}
+// 자신의 그룹이 어디에 속해있는지 리턴
+int find_p(int parent[], int x){
+    if(x != parent[x])
+        return parent[x] = find_p(parent, parent[x]);
+    else
+        return parent[x];
 }
-
-int main() {
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
-	cin >> N >> M;
-	cin >> knowncnt;
-	for (int i = 0; i < knowncnt; i++)
-	{
-		int num;
-		cin >> num;
-		known[num] = true;
-		q.push(num);
-	}
-	for (int i = 0; i < M; i++)
-	{
-
-		cin >> people[i];
-		// 같은 파티에 오는 사람 저장
-		for (int j = 0; j < people[i]; j++)
-		{
-			cin >> party[i][j];
-		}
-		// 같은 파티에 있는 사람 끼리 간선잇기
-		for (int j = 0; j < people[i]; j++)
-		{
-			for (int k = j + 1; k < people[i]; k++)
-			{
-				table[party[i][j]][party[i][k]] = true;
-				table[party[i][k]][party[i][j]] = true;
-			}
-		}
-	}
-	bfs();
-	cout << lies;
-	return 0;
+// x와 y를 같은 그룹으로 만들어줌
+void mer(int parent[], int x, int y){
+    int px = find_p(parent, parent[x]);
+    int py = find_p(parent, parent[y]);
+    if(px != py){
+        if(px < py)
+            parent[py] = parent[px];
+        else
+            parent[px] = parent[py];
+    }
+}
+int main(){
+    int n,m; // 사람 수, 파티 수
+    cin >> n >> m;
+ 
+    int know_tru; // 진실을 아는 사람 수
+    cin >> know_tru; 
+    
+    int parent[51]; // 어느 그룹에 속해 있는지 
+    
+    for(int i =1;i<=n; i++)
+        parent[i] = i; // 각자 자신의 그룹으로 먼저 분류
+    
+    int temp; // 진실을 아는 사람
+    for(int i =0 ;i<know_tru;i++){
+        cin >> temp;
+        parent[temp] = 0; // 진실을 아는 사람은 0 집합으로 분류
+    }
+ 
+    int Pnum;
+    int temp2;
+ 
+    int arr[51][51]; // 파티번호, 파티 사람 번호
+    int arrsiz[51]; // 각 파티의 인원수 저장
+    for(int i =0;i<m;i++){
+        cin >> Pnum; // 파티에 오는 사람 수 
+        cin >> temp; // 파티에 오는 첫번째 사람
+        arrsiz[i] = Pnum; // 각 파티의 인원 수 저장
+        arr[i][0] =temp; 
+        // 첫번째 사람만 올 경우 혼자 오는 것이기 때문에
+        // 다른 사람과 그룹을 합치지 않아도 돼서 분류
+        for(int j = 1; j < Pnum; j++){
+            cin >> temp2; // 파티에 오는 사람 번호
+            arr[i][j] = temp2; // 파티에 오는 사람 번호 저장
+            mer(parent, temp ,temp2); // 파티에 오는 사람 그룹 합침
+        }
+    }
+    int answer = m; // 전부 거짓말을 할 경우 수 부터 시작
+    
+    // 각 파티마다 진실을 아는 사람이 한명이라도 있으면 거짓말을 할 수 없음
+    // -> 하나 빼줌
+    for(int i =0; i<m;i++){
+        for(int j=0;j<arrsiz[i]; j++){
+            if(find_p(parent, parent[arr[i][j]]) == 0){
+                answer--;
+                break;
+            }
+        }
+    }
+    cout << answer;
+    return 0;
 }
