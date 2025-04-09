@@ -2,7 +2,7 @@
 #include<vector>
 #include<queue>
 using namespace std;
-#define MAX 200000
+#define MAX 200001
 
 int V, E, K;
 
