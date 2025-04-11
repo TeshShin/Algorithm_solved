@@ -6,31 +6,34 @@ using namespace std;
 vector<pair<int, int>> graph[10001];
 
 int N;
-
-void dfs()
+int maxNode;
+int ans;
+void dfs(int start)
 {
-	int ans = 0;
+	ans = 0;
 	stack<int> st;
-	for (int i = 1; i <= N; i++)
-	{
-		vector<int> dist(N + 1, -1);
-		st.push(i);
-		dist[i] = 0;
-		while (!st.empty())
-		{
-			int curr = st.top();
-			st.pop();
 
-			for (const pair<int, int> next : graph[curr])
+	vector<int> dist(N + 1, -1);
+	st.push(start);
+	dist[start] = 0;
+	while (!st.empty())
+	{
+		int curr = st.top();
+		st.pop();
+
+		for (const pair<int, int> next : graph[curr])
+		{
+			if (dist[next.first] > -1) continue;
+			st.push(next.first);
+			dist[next.first] = dist[curr] + next.second;
+			if (ans < dist[next.first])
 			{
-				if (dist[next.first] > -1) continue;
-				st.push(next.first);
-				dist[next.first] = dist[curr] + next.second;
-				if (ans < dist[next.first]) ans = dist[next.first];
+				ans = dist[next.first];
+				maxNode = next.first;
 			}
 		}
 	}
-	cout << ans;
+
 }
 
 int main() {
@@ -46,8 +49,9 @@ int main() {
 		graph[to].push_back({ from, cost });
 	}
 
-	dfs();
-
+	dfs(1);
+	dfs(maxNode);
+	cout << ans;
 
 	return 0;
 }
