@@ -15,7 +15,7 @@ int main() {
 	}
 	for (int i = 0; i < N; i++) {
 		DP[i] = 1;
-		for (int j = i - 1; j >= 0; j--) {
+		for (int j = 0; j <= i; j++) {
 			if (A[i] > A[j]) {
 				DP[i] = max(DP[i], DP[j] + 1);
 			}
