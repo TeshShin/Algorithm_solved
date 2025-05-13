@@ -52,7 +52,7 @@ int GetSafeArea(vector<vector<int>>& map)
 	return safeArea;
 }
 
-void BuildWall(vector<vector<int>>& map, int count)
+void BuildWall(vector<vector<int>>& map,int count, int startIdx)
 {
 	if (count == 3)
 	{
@@ -62,16 +62,15 @@ void BuildWall(vector<vector<int>>& map, int count)
 	}
 	else
 	{
-		for (int i = 0; i < N; i++)
+		for (int i = startIdx; i < N * M; i++)
 		{
-			for (int j = 0; j < M; j++)
+			int y = i / M;
+			int x = i % M;
+			if (map[y][x] == 0)
 			{
-				if (map[i][j] == 0)
-				{
-					map[i][j] = 1;
-					BuildWall(map, count + 1);
-					map[i][j] = 0;
-				}
+				map[y][x] = 1;
+				BuildWall(map, count + 1, i + 1);
+				map[y][x] = 0;
 			}
 		}
 	}
@@ -93,7 +92,7 @@ int main() {
 			if (map[i][j] == 2) viruspos.push_back(make_pair(i, j));
 		}
 	}
-	BuildWall(map, 0);
+	BuildWall(map, 0, 0);
 	cout << maxSafeArea;
 	return 0;
 }
