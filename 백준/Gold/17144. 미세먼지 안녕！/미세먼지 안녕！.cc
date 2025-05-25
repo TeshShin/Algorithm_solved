@@ -4,7 +4,8 @@ using namespace std;
 
 
 int R, C, T;
-int d[4] = { -1, 1, 0, 0 };
+int dy[4] = { -1, 1, 0, 0 };
+int dx[4] = { 0, 0, -1, 1 };
 vector<pair<int, int>> freshPos;
 vector<vector<int>> Splash(vector<vector<int>>& graph)
 {
@@ -19,8 +20,8 @@ vector<vector<int>> Splash(vector<vector<int>>& graph)
 			int cnt = 0;
 			for (int k = 0; k < 4; k++)
 			{
-				int y = i + d[k];
-				int x = j + d[3 - k];
+				int y = i + dy[k];
+				int x = j + dx[k];
 				if (0 <= y && y < R && 0 <= x && x < C)
 				{
 					if (newGraph[y][x] == -1) continue;
@@ -85,9 +86,11 @@ void FreshAir(vector<vector<int>>& graph)
 	
 	graph[freshPos[0].first][freshPos[0].second] = -1;
 	graph[freshPos[1].first][freshPos[1].second] = -1;
-
-	graph[freshPos[0].first][freshPos[0].second + 1] = 0;
-	graph[freshPos[1].first][freshPos[1].second + 1] = 0;
+	if (C > 1)
+	{
+		graph[freshPos[0].first][freshPos[0].second + 1] = 0;
+		graph[freshPos[1].first][freshPos[1].second + 1] = 0;
+	}
 }
 
 int DustCount(vector<vector<int>>& graph)
