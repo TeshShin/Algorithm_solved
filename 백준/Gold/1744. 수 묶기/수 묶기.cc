@@ -43,7 +43,8 @@ int main() {
 		}
 		else
 		{
-			answer += positive[i] * positive[++i];
+			answer += positive[i] * positive[i + 1];
+			i++;
 		}
 	}
 	for (int i = 0; i < negative.size(); i++)
@@ -54,7 +55,8 @@ int main() {
 		}
 		else
 		{
-			answer += negative[i] * negative[++i];
+			answer += negative[i] * negative[i + 1];
+			i++;
 		}
 	}
 
