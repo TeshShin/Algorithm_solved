@@ -1,167 +1,87 @@
-#include<iostream>
-#include<vector>
-#include<queue>
-#include<algorithm>
-#include<tuple>
+#include <iostream>
+#include <vector>
 using namespace std;
-using Tuple = tuple<int, int, int>;
+
 int N, M;
 int r, c, d;
 
 int dX[4] = { 0, 1, 0, -1 };
 int dY[4] = { -1, 0, 1, 0 };
+
 bool CanGo(int y, int x)
 {
-	return x >= 0 && y >= 0 && x < M && y < N;
+	return y >= 0 && x >= 0 && y < N && x < M;
 }
 
-bool CheckNotClean(const vector<vector<int>>& map, const Tuple& curr)
+bool HasUncleanAdjacent(const vector<vector<int>>& map, int y, int x)
 {
 	for (int i = 0; i < 4; i++)
 	{
-		int y = get<0>(curr) + dY[i];
-		int x = get<1>(curr) + dX[i];
-		if (CanGo(y,x))
+		int NextY = y + dY[i];
+		int NextX = x + dX[i];
+
+		if (CanGo(NextY, NextX) && map[NextY][NextX] == 0)
 		{
-			if (map[y][x] == 0)
-			{
-				return true;
-			}
+			return true;
 		}
 	}
 	return false;
 }
 
+int TurnLeft(int Dir)
+{
+	return (Dir + 3) % 4;
+}
+
 int Simulate(vector<vector<int>>& map)
 {
-	int cleancnt = 0;
-	queue<Tuple> robot;
-	robot.push(make_tuple(r,c,d));
-	while (!robot.empty())
-	{
+	int CleanCnt = 0;
+	int Y = r;
+	int X = c;
+	int Dir = d;
 
-		Tuple curr = robot.front();
-		int y = get<0>(curr);
-		int x = get<1>(curr);
-		int dist = get<2>(curr);
-		if (map[y][x] == 0)
+	while (true)
+	{
+		if (map[Y][X] == 0)
 		{
-			cleancnt++;
-			map[y][x] = -1;
+			map[Y][X] = -1;
+			CleanCnt++;
 		}
-		robot.pop();
-		if (CheckNotClean(map, curr))
+
+		if (HasUncleanAdjacent(map, Y, X))
 		{
-			bool bIsMoved = false;
+			bool bMoved = false;
+
 			for (int i = 0; i < 4; i++)
 			{
-				if (bIsMoved) break;
-				dist = (dist + 3) % 4;
-				switch (dist)
+				Dir = TurnLeft(Dir);
+
+				int NextY = Y + dY[Dir];
+				int NextX = X + dX[Dir];
+
+				if (CanGo(NextY, NextX) && map[NextY][NextX] == 0)
 				{
-				case 0:
-					if (CanGo(y - 1, x))
-					{
-						if (map[y - 1][x] == 0)
-						{
-							bIsMoved = true;
-							robot.push(make_tuple(y - 1, x, dist));
-						}
-					}
-					break;
-				case 1:
-					if (CanGo(y, x + 1))
-					{
-						if (map[y][x + 1] == 0)
-						{
-							bIsMoved = true;
-							robot.push(make_tuple(y, x + 1, dist));
-						}
-					}
-					break;
-				case 2:
-					if (CanGo(y + 1, x))
-					{
-						if (map[y + 1][x] == 0)
-						{
-							bIsMoved = true;
-							robot.push(make_tuple(y + 1, x, dist));
-						}
-					}
-					break;
-				case 3:
-					if (CanGo(y, x - 1))
-					{
-						if (map[y][x - 1] == 0)
-						{
-							bIsMoved = true;
-							robot.push(make_tuple(y, x - 1, dist));
-						}
-					}
+					Y = NextY;
+					X = NextX;
+					bMoved = true;
 					break;
 				}
 			}
 		}
 		else
 		{
-			switch (dist)
+			int BackY = Y - dY[Dir];
+			int BackX = X - dX[Dir];
+
+			if (!CanGo(BackY, BackX) || map[BackY][BackX] == 1)
 			{
-			case 0:
-				if (CanGo(y + 1, x))
-				{
-					if(map[y + 1][x] != 1)
-						robot.push(make_tuple(y + 1, x,  dist));
-					else
-						return cleancnt;
-				}
-				else
-				{
-					return cleancnt;
-				}
-				break;
-			case 1:
-				if (CanGo(y, x - 1))
-				{
-					if(map[y][x - 1] != 1)
-						robot.push(make_tuple(y, x - 1, dist));
-					else
-						return cleancnt;
-				}
-				else
-				{
-					return cleancnt;
-				}
-				break;
-			case 2:
-				if (CanGo(y - 1, x))
-				{
-					if(map[y - 1][x] != 1)
-						robot.push(make_tuple(y - 1, x,  dist));
-					else
-						return cleancnt;
-				}
-				else
-				{
-					return cleancnt;
-				}
-				break;
-			case 3:
-				if (CanGo(y, x + 1))
-				{
-					if(map[y][x + 1] != 1)
-						robot.push(make_tuple(y, x + 1, dist));
-					else
-						return cleancnt;
-				}
-				else
-				{
-					return cleancnt;
-				}
-				break;
+				return CleanCnt;
 			}
+
+			Y = BackY;
+			X = BackX;
 		}
 	}
-	return cleancnt;
 }
 
 int main() {
