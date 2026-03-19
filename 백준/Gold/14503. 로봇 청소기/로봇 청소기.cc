@@ -15,7 +15,7 @@ bool CanGo(int y, int x)
 	return x >= 0 && y >= 0 && x < M && y < N;
 }
 
-bool CheckNotClean(const vector<vector<int>>& map, Tuple& curr)
+bool CheckNotClean(const vector<vector<int>>& map, const Tuple& curr)
 {
 	for (int i = 0; i < 4; i++)
 	{
@@ -104,7 +104,7 @@ int Simulate(vector<vector<int>>& map)
 		}
 		else
 		{
-			switch (get<2>(curr))
+			switch (dist)
 			{
 			case 0:
 				if (CanGo(y + 1, x))
@@ -161,6 +161,7 @@ int Simulate(vector<vector<int>>& map)
 			}
 		}
 	}
+	return cleancnt;
 }
 
 int main() {
