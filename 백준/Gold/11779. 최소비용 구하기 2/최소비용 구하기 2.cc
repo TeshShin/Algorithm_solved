@@ -5,21 +5,20 @@
 using namespace std;
 using P = pair<int, int>;
 
+int N, M;
+
 struct cmp {
-	bool operator()(P a, P b) {
+	bool operator()(const P& a, const P& b) const {
 		return a.second > b.second;
 	}
 };
 
-int N, M;
-int from, to;
-
-int Solve(const vector<vector<P>>& graph, vector<int>& distance, vector<int>& parent)
+int Solve(const vector<vector<P>>& graph, vector<int>& distance, vector<int>& parent, int start, int end)
 {
-	distance[from] = 0;
+	distance[start] = 0;
 	priority_queue<P, vector<P>, cmp> pq;
 
-	pq.push({ from, 0 });
+	pq.push({ start, 0 });
 	while (!pq.empty())
 	{
 		P curr = pq.top();
@@ -28,7 +27,7 @@ int Solve(const vector<vector<P>>& graph, vector<int>& distance, vector<int>& pa
 		int currDist = curr.second;
 		if (distance[currNode] < currDist) continue;
 		
-		for (P next : graph[currNode])
+		for (const P& next : graph[currNode])
 		{
 			int nextNode = next.first;
 			int newDist = next.second + distance[currNode];
@@ -40,13 +39,13 @@ int Solve(const vector<vector<P>>& graph, vector<int>& distance, vector<int>& pa
 			}
 		}
 	}
-	return distance[to];
+	return distance[end];
 }
 
-void FindParent(vector<int>& parent)
+void PrintPath(const vector<int>& parent, int end)
 {
 	vector<int> path;
-	int curr = to;
+	int curr = end;
 	path.push_back(curr);
 	while (parent[curr])
 	{
@@ -55,8 +54,8 @@ void FindParent(vector<int>& parent)
 	}
 	reverse(path.begin(), path.end());
 	cout << path.size() << '\n';
-	for (auto answer : path)
-		cout << answer << ' ';
+	for (int node : path)
+		cout << node << ' ';
 }
 
 int main() {
@@ -65,17 +64,20 @@ int main() {
 	cout.tie(NULL);
 	cin >> N >> M;
 	vector<vector<P>> graph(N + 1);
-	const int inf = 100'000 * N;
+	const int inf = 1e9;
 	vector<int> distance(N + 1, inf);
 	vector<int> parent(N + 1, 0);
+
 	for (int i = 0; i < M; i++)
 	{
 		int from, to, cost;
 		cin >> from >> to >> cost;
 		graph[from].push_back({ to, cost });
 	}
-	cin >> from >> to;
-	cout << Solve(graph, distance, parent) << '\n';
-	FindParent(parent);
+
+	int start, end;
+	cin >> start >> end;
+	cout << Solve(graph, distance, parent, start, end) << '\n';
+	PrintPath(parent, end);
 	return 0;
 }
