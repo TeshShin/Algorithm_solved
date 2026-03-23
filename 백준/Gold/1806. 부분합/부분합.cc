@@ -12,7 +12,8 @@ int main() {
 	cout.tie(NULL);
 	cin >> N >> S;
 	vector<int> list(N, 0);
-	int answer = 100'001;
+	const int inf = N + 1;
+	int answer = inf;
 	for (int i = 0; i < N; i++)
 	{
 		cin >> list[i];
@@ -38,7 +39,7 @@ int main() {
 		else
 			break;
 	}
-	if (answer == 100'001)
+	if (answer == inf)
 		cout << 0;
 	else
 		cout << answer;
