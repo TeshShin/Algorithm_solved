@@ -21,7 +21,7 @@ void Floyd(V2& graph)
 		}
 	}
 }
-void Dfs(V2& graph, int current, int visited, int cost)
+void Dfs(const V2& graph, int current, int visited, int cost)
 {
 	if (visited == (1 << N) - 1)
 	{
