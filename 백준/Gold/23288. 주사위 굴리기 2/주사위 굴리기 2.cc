@@ -46,10 +46,11 @@ void BFS(const vector<vector<int>>& map, vector<vector<int>>& scoreMap, int r, i
 			}
 		}
 	}
-	for (int i = 0; i < mem.size(); i++)
+	int size = static_cast<int>(mem.size());
+	int score = num * size;
+	for (int i = 0; i < size; i++)
 	{
 		P curr = mem[i];
-		int score = num * mem.size();
 		scoreMap[curr.first][curr.second] = score;
 	}
 }
@@ -151,11 +152,11 @@ int main() {
 		col += dCol[dir];
 		MoveDice(dice, dir);
 		score += scoreMap[row][col];
-		if (dice[5] > map[row][col])
+		if (dice[bottom] > map[row][col])
 		{
 			ClockRotate(dir);
 		}
-		else if (dice[5] < map[row][col])
+		else if (dice[bottom] < map[row][col])
 		{
 			CounterClockRotate(dir);
 		}
