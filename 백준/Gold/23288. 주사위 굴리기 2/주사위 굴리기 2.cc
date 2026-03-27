@@ -38,8 +38,8 @@ void BFS(const vector<vector<int>>& map, vector<vector<int>>& scoreMap, int r, i
 		mem.push_back({ curr.first, curr.second });
 		for (int i = 0; i < 4; i++)
 		{
-			int row = curr.first + dCol[i];
-			int col = curr.second + dRow[i];
+			int row = curr.first + dRow[i];
+			int col = curr.second + dCol[i];
 			if (CanGo(row, col) && map[row][col] == num && scoreMap[row][col] == 0)
 			{
 				q.push({ row, col });
@@ -68,7 +68,7 @@ void BuildScoreMap(const vector<vector<int>>& map, vector<vector<int>>& scoreMap
 
 }
 
-void MoveDice(int dice[], int dir)
+void MoveDice(int(&dice)[6], int dir)
 {
 	int temp[6];
 	switch (dir)
