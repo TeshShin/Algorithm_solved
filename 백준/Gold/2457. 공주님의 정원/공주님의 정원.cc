@@ -1,43 +1,58 @@
-#include<iostream>
-#include<vector>
-#include<queue>
-#include<algorithm>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
 using namespace std;
 using P = pair<int, int>;
-int N;
 
-int SelectFlower(const vector<P>& flower, int current, int count, int index)
+int main()
 {
-	if (current >= 1201) return count;
-	int endDay = current;
-	int nextId = 0;
-	for (int i = index + 1; i < N; i++)
-	{
-		if (flower[i].first > current) break;
-		if (flower[i].second > endDay)
-		{
-			nextId = i;
-			endDay = flower[i].second;
-		}
-	}
-	if (endDay == current) return 0;
-	return SelectFlower(flower, endDay, count + 1, nextId);
-}
-
-// 3월 1일부터 11월 30일까지는 꽃이 한 가지 이상 피어 있어야함.
-int main() {
 	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
-	cin >> N;
-	vector<P> flower(N);
-	for (int i = 0; i < N; i++)
+	cin.tie(nullptr);
+	cout.tie(nullptr);
+
+	int n;
+	cin >> n;
+
+	vector<P> flowers(n);
+
+	for (int i = 0; i < n; i++)
 	{
 		int startMonth, startDay, endMonth, endDay;
 		cin >> startMonth >> startDay >> endMonth >> endDay;
-		flower[i] = { startMonth * 100 + startDay, endMonth * 100 + endDay };
+
+		int start = startMonth * 100 + startDay;
+		int end = endMonth * 100 + endDay;
+
+		flowers[i] = { start, end };
 	}
-	sort(flower.begin(), flower.end());
-	cout << SelectFlower(flower, 301, 0, -1);
+
+	sort(flowers.begin(), flowers.end());
+
+	int current = 301;
+	int index = 0;
+	int answer = 0;
+
+	while (current < 1201)
+	{
+		int maxEnd = current;
+
+		while (index < n && flowers[index].first <= current)
+		{
+			maxEnd = max(maxEnd, flowers[index].second);
+			index++;
+		}
+
+		if (maxEnd == current)
+		{
+			cout << 0;
+			return 0;
+		}
+
+		current = maxEnd;
+		answer++;
+	}
+
+	cout << answer;
 	return 0;
 }
