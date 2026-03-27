@@ -20,7 +20,7 @@ int SelectFlower(const vector<P>& flower, int current, int count, int index)
 			endDay = flower[i].second;
 		}
 	}
-	if (nextId == index) return 0;
+	if (endDay == current) return 0;
 	return SelectFlower(flower, endDay, count + 1, nextId);
 }
 
