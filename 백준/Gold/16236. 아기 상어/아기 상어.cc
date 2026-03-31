@@ -6,22 +6,21 @@
 using namespace std;
 
 using T = tuple<int, int, int>;
-using P = pair<int, int>;
 int dRow[4] = { 1,-1,0,0 };
 int dCol[4] = { 0,0,1,-1 };
 int N;
-bool CanGo(int a, int b)
+bool CanGo(const int a, const int b)
 {
 	return a >= 0 && b >= 0 && a < N && b < N;
 }
 
-vector<T> BFS(vector<vector<int>>& map, int startRow, int startCol, int babyShark)
+vector<T> BFS(const vector<vector<int>>& map, int startRow, int startCol, int babyShark)
 {
 	queue<T> q;
 	vector<vector<bool>> visited(N, vector<bool>(N, 0));
 	vector<T> fishes;
 	q.push({ 0, startRow, startCol });
-	
+	visited[startRow][startCol] = true;
 	while (!q.empty())
 	{
 		T curr = q.front();
@@ -52,7 +51,7 @@ vector<T> BFS(vector<vector<int>>& map, int startRow, int startCol, int babyShar
 	return fishes;
 }
 
-bool compare(T a, T b)
+bool compare(const T& a, const T& b)
 {
 	int aCost = get<0>(a), aRow = get<1>(a), aCol = get<2>(a);
 	int bCost = get<0>(b), bRow = get<1>(b), bCol = get<2>(b);
@@ -89,10 +88,10 @@ int main() {
 
 		}
 	}
-	vector<T> fishes(1);
+	vector<T> fishes;
 	int eatTimes = 0;
 	int deltaTime = 0;
-	while (!fishes.empty())
+	while (true)
 	{
 		if (eatTimes == babyShark)
 		{
