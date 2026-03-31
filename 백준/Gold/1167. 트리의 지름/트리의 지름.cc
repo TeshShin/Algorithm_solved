@@ -7,13 +7,14 @@ using namespace std;
 using P = pair<int, int>;
 int V;
 
-int FindFarthestNode(const vector<vector<P>>& graph, int currNode, int& maxNode)
+int FindFarthestNode(const vector<vector<P>>& graph, int start, int& maxNode)
 {
 	int maxCost = 0;
 	stack<int> st;
 	vector<int> dist(V + 1, -1);
-	st.push(currNode);
-	dist[currNode] = 0;
+	st.push(start);
+	dist[start] = 0;
+	maxNode = start;
 	while (!st.empty())
 	{
 		int curr = st.top();
@@ -21,7 +22,7 @@ int FindFarthestNode(const vector<vector<P>>& graph, int currNode, int& maxNode)
 
 		for (const P& next : graph[curr])
 		{
-			if (dist[next.first] > -1) continue;
+			if (dist[next.first] != -1) continue;
 			st.push(next.first);
 			dist[next.first] = dist[curr] + next.second;
 			if (maxCost < dist[next.first])
