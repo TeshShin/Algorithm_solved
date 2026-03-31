@@ -7,7 +7,7 @@ using namespace std;
 using P = pair<int, int>;
 int V;
 
-int dfs(const vector<vector<P>>& graph, int currNode, int& maxNode)
+int FindFarthestNode(const vector<vector<P>>& graph, int currNode, int& maxNode)
 {
 	int maxCost = 0;
 	stack<int> st;
@@ -19,7 +19,7 @@ int dfs(const vector<vector<P>>& graph, int currNode, int& maxNode)
 		int curr = st.top();
 		st.pop();
 
-		for (const P next : graph[curr])
+		for (const P& next : graph[curr])
 		{
 			if (dist[next.first] > -1) continue;
 			st.push(next.first);
@@ -55,9 +55,9 @@ int main() {
 		}
 	}
 
-	int maxNode;
-	dfs(graph, 1, maxNode);
-	int maxDist = dfs(graph, maxNode, maxNode);
+	int maxNode = 1;
+	FindFarthestNode(graph, 1, maxNode);
+	int maxDist = FindFarthestNode(graph, maxNode, maxNode);
 	cout << maxDist;
 	return 0;
 }
