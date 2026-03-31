@@ -84,29 +84,28 @@ void GoWormHole(const V2P& wormhole, int& row, int& col, int blockNum)
 }
 bool HitWall(int& row, int& col, EDirection dir)
 {
-	if (row < 0 && dir == Up)
+	if (row < 0)
 	{
 		row = 0;
 		return true;
 	}
-	else if (row > N - 1 && dir == Down)
+	else if (row > N - 1)
 	{
 		row = N - 1;
 		return true;
 	}
-	else if (col < 0 && dir == Left)
+	else if (col < 0)
 	{
 		col = 0;
 		return true;
 	}
-	else if (col > N - 1 && dir == Right)
+	else if (col > N - 1)
 	{
 		col = N - 1;
 		return true;
 	}
 	else return false;
 }
-
 int PlayPinBall(const V2& graph, const V2P& wormhole, int row, int col, EDirection dir)
 {
 	int score = 0;
