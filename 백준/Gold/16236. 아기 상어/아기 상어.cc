@@ -9,7 +9,7 @@ using T = tuple<int, int, int>;
 int dRow[4] = { 1,-1,0,0 };
 int dCol[4] = { 0,0,1,-1 };
 int N;
-bool CanGo(const int a, const int b)
+bool CanGo(int a, int b)
 {
 	return a >= 0 && b >= 0 && a < N && b < N;
 }
@@ -23,7 +23,7 @@ vector<T> BFS(const vector<vector<int>>& map, int startRow, int startCol, int ba
 	visited[startRow][startCol] = true;
 	while (!q.empty())
 	{
-		T curr = q.front();
+		const T& curr = q.front();
 		int deltaTime = get<0>(curr);
 		int row = get<1>(curr);
 		int col = get<2>(curr);
