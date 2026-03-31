@@ -7,19 +7,20 @@ using namespace std;
 
 using T = tuple<int, int, int>;
 using P = pair<int, int>;
-int d[4] = { 1,-1,0,0 };
+int dRow[4] = { 1,-1,0,0 };
+int dCol[4] = { 0,0,1,-1 };
 int N;
 bool CanGo(int a, int b)
 {
 	return a >= 0 && b >= 0 && a < N && b < N;
 }
 
-vector<T> BFS(vector<vector<int>>& map, int startRow, int startCol, int babyShark, int time)
+vector<T> BFS(vector<vector<int>>& map, int startRow, int startCol, int babyShark)
 {
 	queue<T> q;
 	vector<vector<bool>> visited(N, vector<bool>(N, 0));
 	vector<T> fishes;
-	q.push({ time, startRow, startCol });
+	q.push({ 0, startRow, startCol });
 	
 	while (!q.empty())
 	{
@@ -28,23 +29,22 @@ vector<T> BFS(vector<vector<int>>& map, int startRow, int startCol, int babyShar
 		int row = get<1>(curr);
 		int col = get<2>(curr);
 		q.pop();
-		if (visited[row][col]) continue;
-		visited[row][col] = true;
 		for (int i = 0; i < 4; i++)
 		{
-			int nextRow = row + d[i];
-			int nextCol = col + d[3 - i];
+			int nextRow = row + dRow[i];
+			int nextCol = col + dCol[i];
 			if (CanGo(nextRow, nextCol) && !visited[nextRow][nextCol])
 			{
 
 				if (map[nextRow][nextCol] == 0 || map[nextRow][nextCol] == babyShark)
 				{
+					visited[nextRow][nextCol] = true;
 					q.push({ deltaTime + 1, nextRow, nextCol  });
 				}
 				else if (map[nextRow][nextCol] < babyShark)
 				{
-					fishes.push_back({ deltaTime + 1, nextRow, nextCol });
 					visited[nextRow][nextCol] = true;
+					fishes.push_back({ deltaTime + 1, nextRow, nextCol });
 				}
 			}
 		}
@@ -99,10 +99,10 @@ int main() {
 			babyShark++;
 			eatTimes = 0;
 		}
-		fishes = BFS(map, startRow, startCol, babyShark, deltaTime);
+		fishes = BFS(map, startRow, startCol, babyShark);
 		if (fishes.empty()) break;
 		sort(fishes.begin(), fishes.end(), compare);
-		deltaTime = get<0>(fishes[0]);
+		deltaTime += get<0>(fishes[0]);
 		startRow = get<1>(fishes[0]);
 		startCol = get<2>(fishes[0]);
 		map[startRow][startCol] = 0;
