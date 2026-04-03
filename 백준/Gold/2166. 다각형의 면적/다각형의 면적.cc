@@ -6,7 +6,7 @@ using namespace std;
 using ll = long long;
 using P = pair <ll, ll>;
 
-ll CalcExtent(const P& a, const P& b)
+double CalcExtent(const P& a, const P& b)
 {
 	return a.first * b.second - a.second * b.first;
 }
@@ -17,26 +17,20 @@ int main() {
 	cout.tie(nullptr);
 	int N;
 	cin >> N;
-	vector<P> Points(N);
-	ll Sum = 0;
+	vector<P> points(N);
+	ll sum = 0;
 	for (int i = 0; i < N; i++)
 	{
-		cin >> Points[i].first >> Points[i].second;
+		cin >> points[i].first >> points[i].second;
 	}
 	for (int i = 0; i < N; i++)
 	{
-		if (i == N - 1)
-		{
-			Sum += CalcExtent(Points[i], Points[0]);
-		}
-		else
-		{
-			Sum += CalcExtent(Points[i], Points[i + 1]);
-		}
+		int next = (i + 1) % N;
+		sum += CalcExtent(points[i], points[next]);
 	}
-	double Extent = 0.5 * abs(Sum);
+	double extent = 0.5 * abs(sum);
 	cout << fixed;
 	cout.precision(1);
-	cout << Extent;
+	cout << extent;
 	return 0;
 }
