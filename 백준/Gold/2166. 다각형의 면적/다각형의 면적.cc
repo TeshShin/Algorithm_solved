@@ -6,7 +6,7 @@ using namespace std;
 using ll = long long;
 using P = pair <ll, ll>;
 
-double CalcExtent(const P& a, const P& b)
+ll CalcExtent(const P& a, const P& b)
 {
 	return a.first * b.second - a.second * b.first;
 }
