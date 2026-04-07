@@ -8,13 +8,13 @@ int N, R, Q;
 
 
 
-void countSubtreeNodes(const vector<vector<int>>& graph, vector<int>& subtreeSize, int current, int parent)
+void CountSubtreeNodes(const vector<vector<int>>& graph, vector<int>& subtreeSize, int current, int parent)
 {
 	subtreeSize[current] = 1;
 	for (int node : graph[current])
 	{
 		if (node == parent) continue;
-		countSubtreeNodes(graph, subtreeSize, node, current);
+		CountSubtreeNodes(graph, subtreeSize, node, current);
 		subtreeSize[current] += subtreeSize[node];
 	}
 }
@@ -33,7 +33,7 @@ int main() {
 		graph[from].push_back(to);
 		graph[to].push_back(from);
 	}
-	countSubtreeNodes(graph, subtreeSize, R, R);
+	CountSubtreeNodes(graph, subtreeSize, R, 0);
 	for (int i = 0; i < Q; i++)
 	{
 		int query;
