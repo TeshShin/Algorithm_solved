@@ -11,7 +11,6 @@ int main() {
 	int N;
 	cin >> N;
 	vector<int> input(N);
-	int num;
 	for (int i = 0; i < N; i++)
 	{
 		cin >> input[i];
@@ -19,23 +18,21 @@ int main() {
 
 	int left = 0;
 	int right = N - 1;
-	int min = inf;
+	int minDiff = inf;
 	int minLeft = 0;
 	int minRight = N - 1;
-	while (left != right)
+	while (left < right)
 	{
 		int sum = input[left] + input[right];
-		if (abs(sum) < min)
+		int diff = abs(sum);
+		if (diff < minDiff)
 		{
-			min = abs(sum);
+			minDiff = diff;
 			minLeft = left;
 			minRight = right;
 		}
 		if (sum == 0)
 		{
-			min = 0;
-			minLeft = left;
-			minRight = right;
 			break;
 		}
 		else if (sum < 0)
