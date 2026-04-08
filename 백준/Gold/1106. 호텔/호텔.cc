@@ -22,7 +22,7 @@ int main() {
 	int limit = C + 100;
 	vector<int> dp(limit + 1, INF);
 	dp[0] = 0;
-	for (P city : citys)
+	for (const P& city : citys)
 	{
 		int cost = city.first;
 		int customer = city.second;
