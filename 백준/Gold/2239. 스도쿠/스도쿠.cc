@@ -13,6 +13,10 @@ int sudoku[9][9];
 // 2. 열에서 가능한 숫자 배열
 // 3. 사각형에서 가능한 숫자 배열
 
+int GetBoxIndex(int row, int col)
+{
+	return (row / 3) * 3 + (col / 3);
+}
 
 
 bool Solve()
@@ -24,12 +28,12 @@ bool Solve()
 			if (sudoku[r][c] != 0) continue;
 			for (int num = 1; num <= 9; num++)
 			{
-				if (!Row[r][num] && !Col[c][num] && !Box[(r / 3) * 3 + (c / 3)][num])
+				if (!Row[r][num] && !Col[c][num] && !Box[GetBoxIndex(r, c)][num])
 				{
 					sudoku[r][c] = num;
 					Row[r][num] = true;
 					Col[c][num] = true;
-					Box[(r / 3) * 3 + (c / 3)][num] = true;
+					Box[GetBoxIndex(r, c)][num] = true;
 					if (Solve())
 					{
 						return true;
@@ -37,7 +41,7 @@ bool Solve()
 					sudoku[r][c] = 0;
 					Row[r][num] = false;
 					Col[c][num] = false;
-					Box[(r / 3) * 3 + (c / 3)][num] = false;
+					Box[GetBoxIndex(r, c)][num] = false;
 				}
 			}
 			return false;
@@ -62,7 +66,7 @@ int main() {
 			{
 				Row[r][sudoku[r][c]] = true;
 				Col[c][sudoku[r][c]] = true;
-				Box[(r / 3) * 3 + (c / 3)][sudoku[r][c]] = true;
+				Box[GetBoxIndex(r, c)][sudoku[r][c]] = true;
 			}
 		}
 	}
