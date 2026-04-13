@@ -26,14 +26,15 @@ bool Solve()
 		for (int c = 0; c < 9; c++)
 		{
 			if (sudoku[r][c] != 0) continue;
+			int boxIndex = GetBoxIndex(r, c);
 			for (int num = 1; num <= 9; num++)
 			{
-				if (!Row[r][num] && !Col[c][num] && !Box[GetBoxIndex(r, c)][num])
+				if (!Row[r][num] && !Col[c][num] && !Box[boxIndex][num])
 				{
 					sudoku[r][c] = num;
 					Row[r][num] = true;
 					Col[c][num] = true;
-					Box[GetBoxIndex(r, c)][num] = true;
+					Box[boxIndex][num] = true;
 					if (Solve())
 					{
 						return true;
@@ -41,7 +42,7 @@ bool Solve()
 					sudoku[r][c] = 0;
 					Row[r][num] = false;
 					Col[c][num] = false;
-					Box[GetBoxIndex(r, c)][num] = false;
+					Box[boxIndex][num] = false;
 				}
 			}
 			return false;
