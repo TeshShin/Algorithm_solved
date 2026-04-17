@@ -1,47 +1,87 @@
 #include <string>
 #include <vector>
+#include <queue>
 
 using namespace std;
 
-int solution(int n, vector<vector<int>> results) {
-    int answer = 0;
-    vector<vector<bool>> win(n + 1, vector<bool>(n + 1));
-    for(const vector<int>& round : results)
+int solution(int n, vector<vector<int>> results)
+{
+    vector<vector<int>> Wins(n + 1);
+    vector<vector<int>> Loses(n + 1);
+
+    for (const vector<int>& Result : results)
     {
-        int winner = round[0];
-        int loser = round[1];
-        win[winner][loser] = true;
+        int Winner = Result[0];
+        int Loser = Result[1];
+
+        Wins[Winner].push_back(Loser);
+        Loses[Loser].push_back(Winner);
     }
-    for(int mid = 1; mid <= n; mid++)
+
+    int Answer = 0;
+
+    for (int Player = 1; Player <= n; Player++)
     {
-        for(int i = 1; i <= n; i++)
+        int WinCount = 0;
+        int LoseCount = 0;
+
         {
-            for(int j = 1; j <= n; j++)
+            vector<bool> Visited(n + 1, false);
+            queue<int> Queue;
+
+            Queue.push(Player);
+            Visited[Player] = true;
+
+            while (!Queue.empty())
             {
-                if(win[i][mid] && win[mid][j])
+                int Current = Queue.front();
+                Queue.pop();
+
+                for (int Next : Wins[Current])
                 {
-                   win[i][j] = true;
+                    if (Visited[Next])
+                    {
+                        continue;
+                    }
+
+                    Visited[Next] = true;
+                    Queue.push(Next);
+                    WinCount++;
                 }
             }
         }
-    }
-    
-    for(int i = 1; i <= n; i++)
-    {
-        bool known = true;
-        for(int j = 1; j <= n; j++)
+
         {
-            if(i == j) continue;
-            if(!(win[i][j] || win[j][i]))
+            vector<bool> Visited(n + 1, false);
+            queue<int> Queue;
+
+            Queue.push(Player);
+            Visited[Player] = true;
+
+            while (!Queue.empty())
             {
-                known = false;
-                break;   
+                int Current = Queue.front();
+                Queue.pop();
+
+                for (int Next : Loses[Current])
+                {
+                    if (Visited[Next])
+                    {
+                        continue;
+                    }
+
+                    Visited[Next] = true;
+                    Queue.push(Next);
+                    LoseCount++;
+                }
             }
         }
-        if(known) 
+
+        if (WinCount + LoseCount == n - 1)
         {
-            answer++;
+            Answer++;
         }
     }
-    return answer;
+
+    return Answer;
 }
