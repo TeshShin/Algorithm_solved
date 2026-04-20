@@ -7,15 +7,15 @@ using namespace std;
 bool solution(vector<string> phone_book) {
     bool answer = true;
 
-    unordered_set<string> hash;
-    for(int i = 0; i < phone_book.size(); i++)
-        hash.insert(phone_book[i]);
+    unordered_set<string> Hash;
+    for(const string Numbers : phone_book)
+        Hash.insert(Numbers);
 
-    for(int i = 0; i < phone_book.size(); i++) {
-        string phone_number = "";
-        for(int j = 0; j < phone_book[i].size(); j++) {
-            phone_number += phone_book[i][j];
-            if(hash.find(phone_number) != hash.end() && phone_number != phone_book[i])
+    for(const string Numbers : phone_book) {
+        string PhoneNumber = "";
+        for(const char Number : Numbers) {
+            PhoneNumber += Number;
+            if(Hash.find(PhoneNumber) != Hash.end() && PhoneNumber != Numbers)
                 answer = false;
         }
     }
