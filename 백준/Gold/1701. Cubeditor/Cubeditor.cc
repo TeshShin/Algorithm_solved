@@ -31,12 +31,11 @@ int main() {
 	string Input;
 	cin >> Input;
 	int Length = static_cast<int>(Input.size());
-	vector<int> Pi(Length, 0);
 	int Answer = 0;
 	for (int i = 0; i < Length; i++)
 	{
 		string Sub = Input.substr(i);
-		const vector<int>& Pi = GetPi(Sub);
+		vector<int> Pi = GetPi(Sub);
 		for (int Value : Pi)
 		{
 			Answer = max(Value, Answer);
