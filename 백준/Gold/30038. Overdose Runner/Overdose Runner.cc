@@ -121,6 +121,25 @@ void Clear(vector<vector<char>>& Game, int Row, int Col)
 		bGameOver = true;
 	}
 }
+
+void Print(const vector<vector<char>>& Game, Player& P, map<Pii, Monster>& Monsters)
+{
+	cout << P.Level << ' ' << P.Exp << '\n';
+	cout << P.MoveCost << '\n';
+
+	for (int i = 0; i < N; i++)
+	{
+		for (int j = 0; j < M; j++)
+		{
+			cout << Game[i][j];
+		}
+		cout << '\n';
+	}
+	for (auto iter = Monsters.begin(); iter != Monsters.end(); iter++)
+	{
+		cout << iter->second.Health << ' ';
+	}
+}
 int main() 
 {
 	ios_base::sync_with_stdio(false);
@@ -272,20 +291,8 @@ int main()
 			}
 		}
 	}
-	cout << Player.Level << ' ' << Player.Exp << '\n';
-	cout << Player.MoveCost << '\n';
 	Game[Row][Col] = 'p';
-	for (int i = 0; i < N; i++)
-	{
-		for (int j = 0; j < M; j++)
-		{
-			cout << Game[i][j];
-		}
-		cout << '\n';
-	}
-	for (auto iter = Monsters.begin(); iter != Monsters.end(); iter++)
-	{
-		cout << iter->second.Health << ' ';
-	}
+
+	Print(Game, Player, Monsters);
 	return 0;
 }
