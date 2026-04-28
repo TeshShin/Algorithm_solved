@@ -7,14 +7,11 @@ int DRow[4] = {1, -1, 0, 0};
 int DCol[4] = {0, 0, 1, -1};
 bool IsSolved(const vector<vector<int>>& clockHands)
 {
-    for(const auto& Clock : clockHands)
+    for(const int Time : clockHands[clockHands.size() - 1])
     {
-        for(const int Time : Clock)
+        if(Time != 0)
         {
-            if(Time != 0)
-            {
-                return false;
-            }
+            return false;
         }
     }
     return true;
