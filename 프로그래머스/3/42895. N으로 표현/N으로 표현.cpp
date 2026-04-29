@@ -29,7 +29,9 @@ int solution(int N, int number) {
                     DP[Count].insert(LeftValue - RightValue);
                     DP[Count].insert(LeftValue * RightValue);
                     if(RightValue != 0)
+                    {
                         DP[Count].insert(LeftValue / RightValue);
+                    }
                 }
             }
         }
