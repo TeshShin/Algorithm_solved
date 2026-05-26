@@ -1,14 +1,15 @@
 #include <string>
 #include <vector>
 #include <queue>
+#include <algorithm>
 using namespace std;
 using vvi = vector<vector<int>>;
 using pii = pair<int,int>;
 using vvpi = vector<vector<pii>>;
-#define MAX 20'000'000
+constexpr int MAX = 20'000'000;
 
 // 다익스트라
-int Shortest(const vvpi& graph, int n, int from, int s, int a, int b)
+vector<int> Shortest(const vvpi& graph, int n, int from)
 {
     vector<int> distance(n + 1, MAX);
     distance[from] = 0;
@@ -23,7 +24,7 @@ int Shortest(const vvpi& graph, int n, int from, int s, int a, int b)
         
         if(cost > distance[curr]) continue;
         
-        for(const pii node : graph[curr])
+        for(const pii& node : graph[curr])
         {
             int newCost = node.first + cost;
             int nextNode = node.second;
@@ -34,7 +35,7 @@ int Shortest(const vvpi& graph, int n, int from, int s, int a, int b)
             }
         }
     }
-    return distance[s] + distance[a] + distance[b];
+    return distance;
 }
 
 
@@ -50,9 +51,12 @@ int solution(int n, int s, int a, int b, vector<vector<int>> fares) {
         graph[from].push_back({cost, to});
         graph[to].push_back({cost, from});
     }
+    vector<int> DistS = Shortest(graph, n, s);
+    vector<int> DistA = Shortest(graph, n, a);
+    vector<int> DistB = Shortest(graph, n, b);
     for(int i = 1; i <= n; i++)
     {
-        answer = min(answer, Shortest(graph, n, i, s, a, b));
+        answer = min(answer, DistS[i] + DistA[i] + DistB[i]);
     }
     
     
