@@ -1,121 +1,83 @@
 #include <string>
 #include <vector>
-#include <algorithm>
-#include <utility>
 
 using namespace std;
-
 using vvi = vector<vector<int>>;
-
-constexpr int INF = 1'000'000'000;
-
-int CalcCost(int from, int to, const vector<pair<int, int>>& positions)
+using vvvi = vector<vvi>;
+constexpr int INF = 700'001;
+int calcCost(int from, int to, const vector<pair<int, int>>& pos)
 {
-    if (from == to)
+    if(from == to)
     {
         return 1;
     }
-
-    int rowDiff = abs(positions[from].first - positions[to].first);
-    int colDiff = abs(positions[from].second - positions[to].second);
-
-    int diagonal = min(rowDiff, colDiff);
-    int straight = max(rowDiff, colDiff) - diagonal;
-
-    return diagonal * 3 + straight * 2;
-}
-
-vector<pair<int, int>> MakePositions()
-{
-    vector<pair<int, int>> positions(10);
-
-    for (int number = 1; number <= 9; ++number)
+    else
     {
-        positions[number] = {(number - 1) / 3, (number - 1) % 3};
+        int diffCol = abs(pos[from].second - pos[to].second);
+        int diffRow = abs(pos[from].first - pos[to].first);
+        int result = min(diffCol, diffRow) * 3 
+            + (max(diffCol, diffRow) - min(diffCol, diffRow)) * 2;
+        return result;
     }
-
-    positions[0] = {3, 1};
-
-    return positions;
 }
 
-vvi MakeCostTable(const vector<pair<int, int>>& positions)
-{
-    vvi cost(10, vector<int>(10, 0));
-
-    for (int from = 0; from <= 9; ++from)
-    {
-        for (int to = 0; to <= 9; ++to)
-        {
-            cost[from][to] = CalcCost(from, to, positions);
-        }
-    }
-
-    return cost;
-}
-
-int solution(string numbers)
-{
+int solution(string numbers) {
     int answer = INF;
-
-    vector<pair<int, int>> positions = MakePositions();
-    vvi cost = MakeCostTable(positions);
-
-    vvi currentDp(10, vector<int>(10, INF));
-    vvi nextDp(10, vector<int>(10, INF));
-
-    currentDp[4][6] = 0;
-
-    for (char digit : numbers)
+    vector<pair<int, int>> pos(10);
+    for(int i = 0; i < 10; i++)
     {
-        int number = digit - '0';
-
-        for (int left = 0; left <= 9; ++left)
+        if(i == 0)
         {
-            fill(nextDp[left].begin(), nextDp[left].end(), INF);
+            pos[i] = {3, 1};
         }
-
-        for (int left = 0; left <= 9; ++left)
+        else
         {
-            for (int right = 0; right <= 9; ++right)
+            pos[i] = {(i - 1) / 3, (i - 1) % 3};
+        }
+    }
+    vvi cost(10, vector<int>(10));
+    for(int i = 0; i < 10; i++)
+    {
+        for(int j = i; j < 10; j++)
+        {
+            cost[i][j] = calcCost(i, j, pos);
+            cost[j][i] = cost[i][j];
+        }
+    }
+    
+    int n = numbers.length();
+    vvvi dp (n + 1, vector<vector<int>> (10, vector<int> (10, INF)));
+    dp[0][4][6] = 0;
+    for(int i = 0; i < n; i++)
+    {
+        int num = numbers[i] - '0';
+        // 해당 인덱스를 왼손, 오른손 각각으로
+        for(int l = 0; l <= 9; l++)
+        {
+            for(int r = 0; r <= 9; r++)
             {
-                if (currentDp[left][right] == INF)
+                if(dp[i][l][r] == INF) continue;
+                if(num == l || num == r) // l과 r이 같아지는 상황을 제외
                 {
-                    continue;
-                }
-
-                if (number == left || number == right)
-                {
-                    nextDp[left][right] = min(
-                        nextDp[left][right],
-                        currentDp[left][right] + 1
-                    );
+                    dp[i + 1][l][r] = min(dp[i + 1][l][r], dp[i][l][r] + 1);
                 }
                 else
                 {
-                    nextDp[number][right] = min(
-                        nextDp[number][right],
-                        currentDp[left][right] + cost[left][number]
-                    );
-
-                    nextDp[left][number] = min(
-                        nextDp[left][number],
-                        currentDp[left][right] + cost[right][number]
-                    );
+                    dp[i + 1][num][r] = min(dp[i + 1][num][r], dp[i][l][r] + cost[l][num]);
+                    dp[i + 1][l][num] = min(dp[i + 1][l][num], dp[i][l][r] + cost[r][num]);
                 }
             }
         }
-
-        currentDp = nextDp;
     }
-
-    for (int left = 0; left <= 9; ++left)
+    for(int l = 0; l <= 9; l++)
     {
-        for (int right = 0; right <= 9; ++right)
+        for(int r = 0; r <= 9; r++)
         {
-            answer = min(answer, currentDp[left][right]);
+            if(dp[n][l][r] < answer)
+            {
+                answer = dp[n][l][r];
+            }
         }
     }
-
     return answer;
 }
